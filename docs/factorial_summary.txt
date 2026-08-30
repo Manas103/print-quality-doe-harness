@@ -1,0 +1,97 @@
+=== Design shape ===
+total runs: 96 (32 unique combinations x 3 replicates)
+factors: ['ink_pressure', 'dwell_time', 'substrate_speed', 'nozzle_drive_voltage', 'purge_interval']
+null factor columns: 20
+
+Significance criterion: 95% CI on the coefficient excludes 0 (equivalently p < 0.05, two-sided t-test)
+
+=== Full effect table (main effects, 2-way interactions, null mains) ===
+                                term estimate std_err ci_lower ci_upper  p_value  significant
+                        ink_pressure   1.3497  0.1003   1.1491   1.5503 0.000000         True
+                          dwell_time  -1.0561  0.1022  -1.2605  -0.8516 0.000000         True
+                     substrate_speed   0.6832  0.1063   0.4705   0.8959 0.000000         True
+                nozzle_drive_voltage   1.0291  0.1035   0.8222   1.2361 0.000000         True
+                      purge_interval  -0.1309  0.1047  -0.3404   0.0786 0.216065        False
+             ink_pressure:dwell_time  -0.1396  0.1015  -0.3427   0.0634 0.174048        False
+        ink_pressure:substrate_speed  -0.0066  0.0998  -0.2062   0.1930 0.947730        False
+   ink_pressure:nozzle_drive_voltage   0.6295  0.0993   0.4309   0.8281 0.000000         True
+         ink_pressure:purge_interval   0.0174  0.1121  -0.2069   0.2416 0.877347        False
+          dwell_time:substrate_speed   0.1206  0.1023  -0.0841   0.3252 0.243363        False
+     dwell_time:nozzle_drive_voltage   0.0388  0.1095  -0.1802   0.2577 0.724538        False
+           dwell_time:purge_interval  -0.0746  0.1021  -0.2788   0.1296 0.467838        False
+substrate_speed:nozzle_drive_voltage   0.2435  0.0942   0.0551   0.4319 0.012160         True
+      substrate_speed:purge_interval   0.1260  0.1003  -0.0746   0.3266 0.213997        False
+ nozzle_drive_voltage:purge_interval  -0.0381  0.1044  -0.2468   0.1707 0.716543        False
+                              null_1   0.0024  0.1208  -0.2393   0.2440 0.984405        False
+                              null_2  -0.0844  0.1094  -0.3031   0.1343 0.443232        False
+                              null_3   0.3935  0.1027   0.1880   0.5990 0.000309         True
+                              null_4   0.0237  0.1125  -0.2013   0.2487 0.833879        False
+                              null_5   0.0220  0.1112  -0.2004   0.2444 0.843771        False
+                              null_6  -0.0645  0.1184  -0.3014   0.1724 0.587921        False
+                              null_7  -0.0521  0.1101  -0.2723   0.1682 0.638005        False
+                              null_8   0.0647  0.1186  -0.1725   0.3019 0.587373        False
+                              null_9   0.2943  0.1078   0.0787   0.5098 0.008292         True
+                             null_10  -0.2192  0.1047  -0.4287  -0.0097 0.040563         True
+                             null_11  -0.1250  0.1045  -0.3340   0.0840 0.236415        False
+                             null_12  -0.0054  0.1116  -0.2286   0.2177 0.961387        False
+                             null_13  -0.1689  0.1103  -0.3896   0.0518 0.131089        False
+                             null_14  -0.0660  0.1113  -0.2887   0.1567 0.555724        False
+                             null_15  -0.0683  0.1031  -0.2744   0.1379 0.510387        False
+                             null_16   0.1048  0.1122  -0.1197   0.3292 0.354356        False
+                             null_17   0.0435  0.1054  -0.1673   0.2543 0.681450        False
+                             null_18  -0.0584  0.1023  -0.2631   0.1463 0.570389        False
+                             null_19   0.0478  0.1076  -0.1674   0.2630 0.658354        False
+                             null_20  -0.1866  0.1027  -0.3920   0.0187 0.074056        False
+
+=== Manual contrast oracle cross-check (no statsmodels) ===
+ink_pressure: OLS=1.3497  manual_contrast=1.3777  diff=0.027986
+dwell_time: OLS=-1.0561  manual_contrast=-1.0014  diff=0.054627
+substrate_speed: OLS=0.6832  manual_contrast=0.7044  diff=0.021217
+nozzle_drive_voltage: OLS=1.0291  manual_contrast=1.1052  diff=0.076106
+ink_pressure:nozzle_drive_voltage: OLS=0.6295  manual_contrast=0.5727  diff=0.056821
+
+=== Effect recovery: 5 of 5 seeded effects flagged significant ===
+  ink_pressure: significant=True (p=0.000000)
+  dwell_time: significant=True (p=0.000000)
+  substrate_speed: significant=True (p=0.000000)
+  nozzle_drive_voltage: significant=True (p=0.000000)
+  ink_pressure:nozzle_drive_voltage: significant=True (p=0.000000)
+
+purge_interval (true zero main effect, not counted in seeded-effect recovery): significant=False (p=0.216065)
+
+=== False positives over 20 null factors, nominal alpha=0.05 per test: 3 of 20 ===
+   term  estimate  std_err  ci_lower  ci_upper  p_value  significant
+ null_3  0.393474 0.102739  0.187965  0.598983 0.000309         True
+ null_9  0.294262 0.107772  0.078686  0.509837 0.008292         True
+null_10 -0.219220 0.104727 -0.428706 -0.009734 0.040563         True
+(20 independent true-null tests at alpha=0.05 have an expected value of 1.0 false
+ positives by construction; this is the nominal per-test rate applied with no
+ correction for testing 20 factors at once.)
+
+=== Same claim, Bonferroni-corrected for the 20-test screening family (adjusted alpha=0.0025): 1 of 20 ===
+  term  estimate  std_err  ci_lower  ci_upper  p_value  significant  bonferroni_significant
+null_3  0.393474 0.102739  0.187965  0.598983 0.000309         True                    True
+
+=== Monte Carlo power (200 independent re-simulations, fresh noise each time) ===
+                                term  n_reps  hits  empirical_rate
+                        ink_pressure     200   200           1.000
+                          dwell_time     200   200           1.000
+                     substrate_speed     200   200           1.000
+                nozzle_drive_voltage     200   200           1.000
+                      purge_interval     200     8           0.040
+             ink_pressure:dwell_time     200    11           0.055
+        ink_pressure:substrate_speed     200    15           0.075
+   ink_pressure:nozzle_drive_voltage     200   200           1.000
+         ink_pressure:purge_interval     200    12           0.060
+          dwell_time:substrate_speed     200    10           0.050
+     dwell_time:nozzle_drive_voltage     200    12           0.060
+           dwell_time:purge_interval     200     7           0.035
+substrate_speed:nozzle_drive_voltage     200    14           0.070
+      substrate_speed:purge_interval     200     9           0.045
+ nozzle_drive_voltage:purge_interval     200    10           0.050
+
+For ink_pressure, dwell_time, substrate_speed, nozzle_drive_voltage, and
+ink_pressure:nozzle_drive_voltage the empirical_rate above is statistical power
+(true nonzero effect). For purge_interval and any 2-way interaction not seeded,
+empirical_rate is the empirical false-positive rate (true zero effect), which
+should sit near the nominal alpha = 0.05.

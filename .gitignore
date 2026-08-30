@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log
+docs/*.png
+!docs/sample_run_low.png
+!docs/sample_run_high.png

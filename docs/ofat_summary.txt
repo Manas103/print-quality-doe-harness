@@ -1,0 +1,30 @@
+=== OFAT design shape ===
+total runs: 96 (6 conditions x 16 replicates), same budget as the factorial design
+conditions: all-baseline, plus one run per factor with only that factor flipped high
+
+=== OFAT main-effects-only model (the model OFAT's own design supports) ===
+                term estimate std_err ci_lower ci_upper  p_value  significant
+        ink_pressure   0.8965  0.1711   0.5566   1.2365 0.000001         True
+          dwell_time  -0.7805  0.1711  -1.1204  -0.4405 0.000016         True
+     substrate_speed   1.0273  0.1711   0.6873   1.3672 0.000000         True
+nozzle_drive_voltage   0.9993  0.1711   0.6594   1.3393 0.000000         True
+      purge_interval   0.3888  0.1711   0.0488   0.7287 0.025473         True
+
+=== Evidence 1: interaction column is a linear function of the two main columns ===
+regressing (ink_pressure x nozzle_drive_voltage) on [1, ink_pressure, nozzle_drive_voltage] in the OFAT design: R^2 = 1.0000000000
+R^2 = 1.0 means the interaction column carries zero information beyond what the two main
+columns already carry in this design; it is exactly, not approximately, confounded.
+
+=== Evidence 2: design matrix rank when the interaction term is forced into the model ===
+columns in [const, 5 main effects, ink_pressure:nozzle_drive_voltage]: 7
+numerical rank of that design matrix: 6
+rank deficient: True
+statsmodels OLS still returns a coefficient via pseudo-inverse when asked (estimate=-4.4570, std_err=0.1814970982151087), but with a rank-deficient design this coefficient is not identifiable: it is the minimum-norm solution among infinitely many that fit the OFAT data equally well, not a unique estimate of the interaction, and its standard error is undefined (statsmodels reports it via a generalized inverse, not a real sampling distribution). The true seeded interaction, +4.0, cannot be told apart from 0 or any
+other value using only this design; the honest conclusion is 'not estimable', not 'estimated as -4.46'.
+
+=== Conclusion ===
+The factorial design's own effect table (docs/factorial_summary.txt) flags
+ink_pressure:nozzle_drive_voltage significant on the identical 96-run budget. The OFAT design, which
+never varies both factors away from baseline in the same run, cannot estimate that interaction
+at all: it is exactly confounded with the two main effects (R^2 = 1.0 above), not merely
+underpowered to detect it.

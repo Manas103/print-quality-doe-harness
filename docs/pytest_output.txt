@@ -1,0 +1,12 @@
+.................                                                        [100%]
+============================== warnings summary ===============================
+projects/print-quality-doe-harness/tests/test_print_doe.py::test_manual_contrast_oracle_matches_ols_on_a_noiseless_synthetic_dataset
+  C:\Users\Manas\Downloads\Total Job Application process flow\projects\print-quality-doe-harness\.venv\Lib\site-packages\statsmodels\regression\linear_model.py:1954: RuntimeWarning: divide by zero encountered in scalar divide
+    return np.dot(wresid, wresid) / self.df_resid
+
+projects/print-quality-doe-harness/tests/test_print_doe.py::test_manual_contrast_oracle_matches_ols_on_a_noiseless_synthetic_dataset
+  C:\Users\Manas\Downloads\Total Job Application process flow\projects\print-quality-doe-harness\.venv\Lib\site-packages\statsmodels\base\model.py:1727: RuntimeWarning: invalid value encountered in multiply
+    cov_p = self.normalized_cov_params * scale
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+17 passed, 2 warnings in 1.32s
