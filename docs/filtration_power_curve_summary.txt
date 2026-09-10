@@ -1,0 +1,22 @@
+=== Power curve: baseline vs 20% defect-count reduction ===
+baseline hidden score: 40.0 (filtration_ground_truth.INTERCEPT, nominal bench setting)
+reduction_frac: 0.2 (true reduction applied to the expected particle rate, not to the measured output)
+n_reps per replicate count: 400
+target power: 0.95
+
+ replicates_per_condition  n_reps  hits empirical_power mean_baseline_defect_count mean_treatment_defect_count baseline_rate treatment_rate
+                        2     400    29          0.0725                     38.301                      30.834        40.000         32.000
+                        4     400   133          0.3325                     38.561                      30.864        40.000         32.000
+                        6     400   214          0.5350                     38.458                      30.822        40.000         32.000
+                        8     400   268          0.6700                     38.254                      30.977        40.000         32.000
+                       10     400   316          0.7900                     38.316                      30.819        40.000         32.000
+                       12     400   347          0.8675                     38.387                      30.962        40.000         32.000
+                       15     400   371          0.9275                     38.316                      30.909        40.000         32.000
+                       18     400   389          0.9725                     38.238                      30.890        40.000         32.000
+                       22     400   396          0.9900                     38.361                      30.935        40.000         32.000
+                       26     400   400          1.0000                     38.255                      30.944        40.000         32.000
+                       30     400   400          1.0000                     38.249                      30.871        40.000         32.000
+                       35     400   400          1.0000                     38.281                      30.858        40.000         32.000
+                       40     400   400          1.0000                     38.203                      30.930        40.000         32.000
+
+=== Minimum replicates per condition at which empirical power >= 0.95: 18 ===

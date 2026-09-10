@@ -1,0 +1,29 @@
+=== Filtration OFAT design shape ===
+total runs: 80 (5 conditions x 16 replicates), same budget as the filtration factorial design
+conditions: all-baseline, plus one run per factor with only that factor flipped high
+
+=== OFAT main-effects-only model (the model OFAT's own design supports) ===
+           term estimate std_err ci_lower ci_upper  p_value  significant
+      pore_size  -0.0000  0.9891  -1.9705   1.9705 1.000000        False
+dispense_volume  -0.4688  0.9891  -2.4392   1.5017 0.636948        False
+   purge_volume  -1.5938  0.9891  -3.5642   0.3767 0.111324        False
+      flow_rate   1.3125  0.9891  -0.6580   3.2830 0.188561        False
+
+=== Evidence 1: interaction column is a linear function of the two main columns ===
+regressing (pore_size x flow_rate) on [1, pore_size, flow_rate] in the OFAT design: R^2 = 1.0000000000
+R^2 = 1.0 means the interaction column carries zero information beyond what the two main
+columns already carry in this design; it is exactly, not approximately, confounded.
+
+=== Evidence 2: design matrix rank when the interaction term is forced into the model ===
+columns in [const, 4 main effects, pore_size:flow_rate]: 6
+numerical rank of that design matrix: 5
+rank deficient: True
+statsmodels OLS still returns a coefficient via pseudo-inverse when asked (estimate=-8.8281, std_err=0.8915930411581656), but with a rank-deficient design this coefficient is not identifiable: it is the minimum-norm solution among infinitely many that fit the OFAT data equally well, not a unique estimate of the interaction, and its standard error is undefined (statsmodels reports it via a generalized inverse, not a real sampling distribution). The true seeded interaction, +3.0, cannot be told apart from 0 or any
+other value using only this design; the honest conclusion is 'not estimable', not 'estimated as -8.83'.
+
+=== Conclusion ===
+The filtration factorial design's own effect table (docs/filtration_factorial_summary.txt)
+flags pore_size:flow_rate significant on the identical 80-run budget. The OFAT
+design, which never varies both factors away from baseline in the same run, cannot estimate
+that interaction at all: it is exactly confounded with the two main effects (R^2 = 1.0 above),
+not merely underpowered to detect it.

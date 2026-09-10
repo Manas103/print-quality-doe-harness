@@ -1,0 +1,51 @@
+=== Filtration-bench design shape ===
+total runs: 80 (16 unique combinations x 5 replicates)
+factors: ['pore_size', 'dispense_volume', 'purge_volume', 'flow_rate']
+
+Significance criterion: 95% CI on the coefficient excludes 0 (equivalently p < 0.05, two-sided t-test)
+
+=== Full effect table (4 main effects, 6 two-way interactions) ===
+                        term estimate std_err ci_lower ci_upper  p_value  significant
+                   pore_size   4.0875  0.6293   2.8320   5.3430 0.000000         True
+             dispense_volume   1.4375  0.6293   0.1820   2.6930 0.025440         True
+                purge_volume   0.5125  0.6293  -0.7430   1.7680 0.418234        False
+                   flow_rate   2.0625  0.6293   0.8070   3.3180 0.001642         True
+   pore_size:dispense_volume  -0.7125  0.6293  -1.9680   0.5430 0.261480        False
+      pore_size:purge_volume   0.8625  0.6293  -0.3930   2.1180 0.174965        False
+         pore_size:flow_rate   2.2625  0.6293   1.0070   3.5180 0.000604         True
+dispense_volume:purge_volume   0.3125  0.6293  -0.9430   1.5680 0.621072        False
+   dispense_volume:flow_rate  -0.8875  0.6293  -2.1430   0.3680 0.162957        False
+      purge_volume:flow_rate   0.2875  0.6293  -0.9680   1.5430 0.649219        False
+
+=== Manual contrast oracle cross-check (no statsmodels) ===
+pore_size: OLS=4.0875  manual_contrast=4.0875  diff=0.000000
+dispense_volume: OLS=1.4375  manual_contrast=1.4375  diff=0.000000
+flow_rate: OLS=2.0625  manual_contrast=2.0625  diff=0.000000
+pore_size:flow_rate: OLS=2.2625  manual_contrast=2.2625  diff=0.000000
+
+=== Effect recovery: 4 of 4 seeded effects flagged significant ===
+  pore_size: significant=True (p=0.000000)
+  dispense_volume: significant=True (p=0.025440)
+  flow_rate: significant=True (p=0.001642)
+  pore_size:flow_rate: significant=True (p=0.000604)
+
+purge_volume (true zero main effect, not counted in seeded-effect recovery): significant=False (p=0.418234)
+
+=== Monte Carlo power (200 independent re-simulations, fresh noise each time) ===
+                        term  n_reps  hits  empirical_rate
+                   pore_size     200   199           0.995
+             dispense_volume     200   147           0.735
+                purge_volume     200    10           0.050
+                   flow_rate     200   181           0.905
+   pore_size:dispense_volume     200     9           0.045
+      pore_size:purge_volume     200    15           0.075
+         pore_size:flow_rate     200    95           0.475
+dispense_volume:purge_volume     200     9           0.045
+   dispense_volume:flow_rate     200     9           0.045
+      purge_volume:flow_rate     200    10           0.050
+
+For pore_size, dispense_volume, flow_rate, and pore_size:flow_rate the
+empirical_rate above is statistical power (true nonzero effect). For
+purge_volume and any 2-way interaction not seeded, empirical_rate is the
+empirical false-positive rate (true zero effect), which should sit near the
+nominal alpha = 0.05.

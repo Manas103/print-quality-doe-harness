@@ -6,3 +6,5 @@ __pycache__/
 docs/*.png
 !docs/sample_run_low.png
 !docs/sample_run_high.png
+!docs/filtration_sample_run_low.png
+!docs/filtration_sample_run_high.png
