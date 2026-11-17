@@ -1,0 +1,31 @@
+ISP factorial design: 96 runs (32 unique combos x 3 replicates)
+Fixed detector trained once on 2000 baseline scenes
+
+Effect table (OLS, 95% CI):
+                    term  estimate  std_err  ci_lower  ci_upper      p_value  significant
+                 denoise -0.038611 0.002684 -0.043952 -0.033270 6.701990e-24         True
+                demosaic  0.002083 0.002684 -0.003257  0.007424 4.398572e-01        False
+              tone_curve -0.057778 0.002684 -0.063118 -0.052437 4.984378e-35         True
+              sharpening  0.006667 0.002684  0.001326  0.012007 1.507314e-02         True
+           white_balance -0.083611 0.002684 -0.088952 -0.078270 1.700407e-46         True
+        denoise:demosaic -0.003333 0.002684 -0.008674  0.002007 2.178322e-01        False
+      denoise:tone_curve -0.014306 0.002684 -0.019646 -0.008965 8.828486e-07         True
+      denoise:sharpening -0.005139 0.002684 -0.010480  0.000202 5.908103e-02        False
+   denoise:white_balance -0.038472 0.002684 -0.043813 -0.033132 8.257311e-24         True
+     demosaic:tone_curve  0.005556 0.002684  0.000215  0.010896 4.166447e-02         True
+     demosaic:sharpening  0.001944 0.002684 -0.003396  0.007285 4.708403e-01        False
+  demosaic:white_balance  0.002222 0.002684 -0.003118  0.007563 4.100999e-01        False
+   tone_curve:sharpening  0.004861 0.002684 -0.000480  0.010202 7.383504e-02        False
+tone_curve:white_balance -0.057639 0.002684 -0.062980 -0.052298 5.875523e-35         True
+sharpening:white_balance  0.006528 0.002684  0.001187  0.011868 1.723017e-02         True
+
+Interaction term: denoise:tone_curve
+Interaction estimate (coded coefficient): -0.0143
+Interaction full swing (low->high, percentage points): -2.86
+Interaction p-value: 8.828e-07, significant: True
+
+Main effect |denoise| (percentage points): 7.72
+Main effect |tone_curve| (percentage points): 11.56
+Interaction larger in magnitude than both main effects alone: False
+
+Manual contrast oracle cross-check (no statsmodels) for denoise:tone_curve: -2.86 percentage points (OLS: -2.86, abs diff: 0.000)
